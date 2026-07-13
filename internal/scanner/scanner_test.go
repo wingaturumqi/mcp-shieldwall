@@ -1,6 +1,6 @@
 package scanner_test
-
 import (
+	"runtime"
 	"testing"
 
 	"github.com/wingaturumqi/mcp-shieldwall/internal/model"
@@ -73,12 +73,16 @@ func TestCheckSecrets_VarReference(t *testing.T) {
 }
 
 func TestCheckPermissions_BroadAccess(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("skipping on Windows (uses Linux-specific paths)")
+	}
+
 	cfg := &model.MCPConfig{Path: "test.json"}
 	server := model.MCPServer{
 		Name:      "filesystem",
 		Transport: "stdio",
 		Command:   "npx",
-		Args:      []string{"-y", "@modelcontextprotocol/server-filesystem", "C:\\"},
+		Args:      []string{"-y", "@modelcontextprotocol/server-filesystem", "/home"},
 	}
 
 	findings := scanner.CheckPermissions(cfg, server)
