@@ -45,6 +45,7 @@ func runFix(cmd *cobra.Command, args []string) error {
 	for _, cfg := range configs {
 		parsed, err := parser.Parse(cfg.Path, cfg.Source)
 		if err != nil {
+			fmt.Fprintf(os.Stderr, "  ⚠️  Failed to parse %s: %v\n", cfg.Path, err)
 			continue
 		}
 

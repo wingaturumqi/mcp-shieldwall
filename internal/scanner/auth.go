@@ -1,6 +1,7 @@
 package scanner
 
 import (
+	"net/url"
 	"strings"
 
 	"github.com/wingaturumqi/mcp-shieldwall/internal/model"
@@ -73,7 +74,7 @@ func CheckAuth(cfg *model.MCPConfig, server model.MCPServer) []model.Finding {
 					}
 				}
 				// Check URL for embedded credentials
-				if strings.Contains(server.URL, "@") {
+				if hasURLCredentials(server.URL) {
 					hasAuth = true
 				}
 
@@ -95,16 +96,25 @@ func CheckAuth(cfg *model.MCPConfig, server model.MCPServer) []model.Finding {
 	return findings
 }
 
-func isLocalhost(url string) bool {
-	localhostPatterns := []string{
-		"localhost", "127.0.0.1", "::1", "0.0.0.0",
+func isLocalhost(rawURL string) bool {
+	u, err := url.Parse(rawURL)
+	if err != nil {
+		return false
 	}
-	lower := strings.ToLower(url)
-	for _, p := range localhostPatterns {
-		if strings.Contains(lower, p) {
-			return true
-		}
+	host := strings.ToLower(u.Hostname())
+	switch host {
+	case "localhost", "127.0.0.1", "::1", "0.0.0.0":
+		return true
 	}
 	return false
+}
+
+// hasURLCredentials checks if a URL has embedded user credentials (not just an @ in the path/query)
+func hasURLCredentials(rawURL string) bool {
+	u, err := url.Parse(rawURL)
+	if err != nil {
+		return false
+	}
+	return u.User != nil
 }
 

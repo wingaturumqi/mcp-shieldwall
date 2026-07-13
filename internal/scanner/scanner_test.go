@@ -13,7 +13,7 @@ func TestCheckSecrets_GitHubToken(t *testing.T) {
 		Name:      "github",
 		Transport: "stdio",
 		Env: map[string]string{
-			"GITHUB_TOKEN": "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnop",
+			"GITHUB_TOKEN": "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef1234",
 		},
 	}
 

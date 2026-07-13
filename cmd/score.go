@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
@@ -42,6 +43,7 @@ func runScore(cmd *cobra.Command, args []string) error {
 	for _, cfg := range configs {
 		parsed, err := parser.Parse(cfg.Path, cfg.Source)
 		if err != nil {
+			fmt.Fprintf(os.Stderr, "  ⚠️  Failed to parse %s: %v\n", cfg.Path, err)
 			continue
 		}
 		for range parsed.Servers {

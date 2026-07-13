@@ -19,7 +19,7 @@ func TestParseStandard(t *testing.T) {
 				"command": "npx",
 				"args": ["-y", "@modelcontextprotocol/server-github"],
 				"env": {
-					"GITHUB_TOKEN": "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnop"
+					"GITHUB_TOKEN": "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef1234"
 				}
 			},
 			"remote-db": {

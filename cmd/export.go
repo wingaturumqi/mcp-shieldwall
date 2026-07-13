@@ -150,6 +150,8 @@ func exportSARIF(result model.ScoreResult) ([]byte, error) {
 	run.Tool.Driver.Name = "mcp-shieldwall"
 	run.Tool.Driver.Version = versionStr
 	run.Tool.Driver.InformationURI = "https://github.com/wingaturumqi/mcp-shieldwall"
+	run.Tool.Driver.Rules = make([]sarifRule, 0)
+	run.Results = make([]sarifResult, 0)
 
 	// Build rules from findings
 	ruleSeen := make(map[string]bool)

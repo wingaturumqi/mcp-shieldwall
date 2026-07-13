@@ -37,8 +37,10 @@ func CheckSecrets(cfg *model.MCPConfig, server model.MCPServer) []model.Finding 
 
 	// Check environment variables
 	for key, value := range server.Env {
+		matched := false
 		for _, sp := range secretPatterns {
 			if sp.Pattern.MatchString(value) {
+				matched = true
 				findings = append(findings, model.Finding{
 					ServerName: server.Name,
 					Severity:   model.CRITICAL,
@@ -51,8 +53,8 @@ func CheckSecrets(cfg *model.MCPConfig, server model.MCPServer) []model.Finding 
 			}
 		}
 
-		// Generic check for suspiciously named env vars with hardcoded values
-		if isSuspiciousEnvKey(key) && len(value) >= 8 && looksLikeSecret(value) {
+		// Only run generic check if no specific pattern matched
+		if !matched && isSuspiciousEnvKey(key) && len(value) >= 8 && looksLikeSecret(value) {
 			findings = append(findings, model.Finding{
 				ServerName: server.Name,
 				Severity:   model.HIGH,
