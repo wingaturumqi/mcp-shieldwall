@@ -69,6 +69,7 @@ func getDangerousPaths() []string {
 	}
 	return []string{
 		"/etc", "/var", "/usr", "/root", "/tmp", "/sys", "/proc", "/dev",
+		"/home",
 	}
 }
 
