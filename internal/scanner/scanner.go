@@ -15,6 +15,12 @@ func Scan(cfg *model.MCPConfig) []model.Finding {
 		// MCP02: Permission scope
 		findings = append(findings, CheckPermissions(cfg, server)...)
 
+		// MCP03: Prompt injection
+		findings = append(findings, CheckInjection(cfg, server)...)
+
+		// MCP04: Supply chain
+		findings = append(findings, CheckSupplyChain(cfg, server)...)
+
 		// MCP05: Command injection risk
 		findings = append(findings, CheckCommandInjection(cfg, server)...)
 
