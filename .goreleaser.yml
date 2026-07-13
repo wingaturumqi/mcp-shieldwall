@@ -1,0 +1,66 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+version: 2
+
+project_name: mcp-shieldwall
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: shieldwall
+    main: ./main.go
+    binary: shieldwall
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.ShortCommit}}
+
+archives:
+  - id: default
+    format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - README.md
+      - LICENSE
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^ci:"
+      - "^chore:"
+
+brews:
+  - repository:
+      owner: wingaturumqi
+      name: homebrew-tap
+    directory: Formula
+    homepage: https://github.com/wingaturumqi/mcp-shieldwall
+    description: Security audit CLI for MCP servers
+    license: MIT
+
+scoops:
+  - repository:
+      owner: wingaturumqi
+      name: scoop-bucket
+    homepage: https://github.com/wingaturumqi/mcp-shieldwall
+    description: Security audit CLI for MCP servers
+    license: MIT
