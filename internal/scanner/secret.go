@@ -24,7 +24,6 @@ var secretPatterns = []secretPattern{
 	{"Slack Token", regexp.MustCompile(`xox[bpors]-[0-9A-Za-z\-]+`)},
 	{"Stripe Secret Key", regexp.MustCompile(`sk_live_[0-9a-zA-Z]{24,}`)},
 	{"Stripe Publishable Key", regexp.MustCompile(`pk_live_[0-9a-zA-Z]{24,}`)},
-	{"Heroku API Key", regexp.MustCompile(`[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}`)},
 	{"SendGrid API Key", regexp.MustCompile(`SG\.[a-zA-Z0-9_\-]{22}\.[a-zA-Z0-9_\-]{43}`)},
 	{"Twilio API Key", regexp.MustCompile(`SK[0-9a-fA-F]{32}`)},
 	{"Mailgun API Key", regexp.MustCompile(`key-[0-9a-zA-Z]{32}`)},

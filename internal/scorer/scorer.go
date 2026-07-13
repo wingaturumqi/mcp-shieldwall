@@ -15,31 +15,25 @@ func Calculate(findings []model.Finding) model.ScoreResult {
 	for _, f := range findings {
 		deduction := f.Severity.Deduction()
 
+		// Deduct from the relevant dimension based on OWASP category
 		switch f.OWASP {
 		case "MCP01": // Secret/token leakage → Config dimension
 			result.Dimensions.Config -= deduction
-			result.Severities.Critical++
 		case "MCP02": // Permission scope → Permission dimension
 			result.Dimensions.Permission -= deduction
-			result.Severities.High++
 		case "MCP03": // Prompt injection → Injection dimension
 			result.Dimensions.Injection -= deduction
-			result.Severities.High++
 		case "MCP04": // Supply chain → Supply dimension
 			result.Dimensions.Supply -= deduction
-			result.Severities.Medium++
 		case "MCP05": // Command injection → Permission dimension
 			result.Dimensions.Permission -= deduction
-			result.Severities.High++
 		case "MCP07": // Auth → Auth dimension
 			result.Dimensions.Auth -= deduction
-			result.Severities.Medium++
 		default:
-			// Distribute to the most relevant dimension
 			result.Dimensions.Config -= deduction
 		}
 
-		// Count by severity
+		// Count by severity (single source of truth)
 		switch f.Severity {
 		case model.CRITICAL:
 			result.Severities.Critical++

@@ -35,7 +35,7 @@ func runExport(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	var allFindings []model.Finding
+	allFindings := make([]model.Finding, 0)
 	for _, cfg := range configs {
 		parsed, err := parser.Parse(cfg.Path, cfg.Source)
 		if err != nil {
@@ -148,7 +148,7 @@ func exportSARIF(result model.ScoreResult) ([]byte, error) {
 
 	run := sarifRun{}
 	run.Tool.Driver.Name = "mcp-shieldwall"
-	run.Tool.Driver.Version = "0.1.0"
+	run.Tool.Driver.Version = versionStr
 	run.Tool.Driver.InformationURI = "https://github.com/wingaturumqi/mcp-shieldwall"
 
 	// Build rules from findings

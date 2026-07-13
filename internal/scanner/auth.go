@@ -1,7 +1,6 @@
 package scanner
 
 import (
-	"regexp"
 	"strings"
 
 	"github.com/wingaturumqi/mcp-shieldwall/internal/model"
@@ -109,5 +108,3 @@ func isLocalhost(url string) bool {
 	return false
 }
 
-// unused but keeping for future use
-var _ = regexp.MustCompile
